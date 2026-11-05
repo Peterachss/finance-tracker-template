@@ -9,8 +9,10 @@ as a Progressive Web App.
 **Try it:** https://finance-tracker-template.vercel.app — no account, starts empty, and
 anything you enter stays in your own browser.
 
-**Make it yours:** click **Use this template** (or fork), then follow *Setup* below to
-connect your own free Supabase project. Your data lives only in your database.
+**Make it yours:** follow the step-by-step guide in **[SETUP.md](SETUP.md)**. No coding
+needed: about 20 minutes with free GitHub, Supabase and Vercel accounts. It also has a
+ready-to-paste prompt for Codex, Claude Code and other AI coding tools. Your data lives
+only in your own database.
 
 ### Try-it mode
 
@@ -83,10 +85,11 @@ cp .env.example .env.local
 
 ### 3. Apply the database schema
 
-Open your Supabase project → **SQL Editor** → paste the whole of
-`supabase/migrations/0001_init.sql` and run it.
+Open your Supabase project → **SQL Editor** and run each file in
+`supabase/migrations/` **in number order** (`0001` → `0004`), pasting the whole file
+each time.
 
-It creates:
+`0001_init.sql` creates:
 
 - `profiles`, `accounts`, `categories`, `transactions`, `budgets`
 - composite foreign keys so a transaction can only reference accounts and categories
@@ -94,6 +97,9 @@ It creates:
 - Row Level Security policies on every user-owned table (`force row level security`)
 - `apply_transaction_batch(...)`, the transactional batch writer
 - default accounts and categories, seeded per user and safe to re-run
+
+The later files add safe batch saving (`0002`), tighten a permission (`0003`), and add
+the Bills, Dream list, Allowance and shared-statement tables (`0004`).
 
 If you have the Supabase CLI you can instead run `supabase db push`.
 
