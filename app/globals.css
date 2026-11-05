@@ -1,0 +1,249 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens. Composition: Untitled UI "My accounts" and QClay overview
+ * (desktop), Nixtio banking app (mobile). Rules: colour carries meaning,
+ * expenses are not red, structure from whitespace and hairlines, tabular
+ * numerals for money. tests/encoding.test.ts guards the light values.
+ */
+
+@theme {
+  --color-accent: #1f5c46;
+  --color-accent-soft: #e4f0ea;
+  --color-sage: #8fcfb1;
+  --color-positive: #12805c;
+
+  --radius-panel: 12px;
+}
+
+/*
+ * Palette (2026-10 redesign): Nixtio's mint, yellow and black on the
+ * Untitled UI / QClay composition. Primary actions are forest green (the
+ * user's colour), shaped like the Nixtio and QClay "Send" buttons; mint marks selection; the one
+ * yellow surface is the balance card.
+ */
+:root {
+  --bg: #f4f6f5;
+  --surface: #ffffff;
+  --surface-sunken: #f2f5f3;
+  --line: #e7ebe9;
+  --line-strong: #d5dcd8;
+  --gridline: #edf0ee;
+
+  --text: #111816;
+  --text-muted: #5d6a64;
+  --text-faint: #929d98;
+
+  --accent: #1f5c46;
+  --accent-hover: #184a38;
+  --accent-soft: #e4f0ea;
+  --on-accent: #ffffff;
+  /* Deep forest surface that stays dark in both themes (balance card). */
+  --forest: #1f5c46;
+  --series-1: #1f7a57;
+  --series-2: #8fcfb1;
+  --bar-muted: #e3e8e5;
+
+  --positive: #1f7a57;
+  --negative: #c23b2c;
+  --warning: #8a6a1f;
+  --warning-soft: #fbf5e8;
+  --danger-soft: #fbeeec;
+
+  /* Nixtio surfaces: mint page wash on mobile, one yellow balance card. */
+  --mint: #cfe7db;
+  --mint-2: #e9f3c9;
+  --lime: #f3f68c;
+
+  /* Spreadsheet: Google Sheets gridlines, header bars and blue selection. */
+  --sheet-grid: #e2e3e3;
+  --sheet-head: #f8f9fa;
+  --sheet-header: #1f5c46;
+  --sheet-band: #f3f9f6;
+  --sheet-select: #1a73e8;
+  --sheet-select-soft: #e8f0fe;
+
+  --shadow-card: 0 1px 2px rgb(17 24 22 / 0.05);
+  --shadow-pop: 0 20px 48px -16px rgb(17 24 22 / 0.25), 0 0 0 1px var(--line);
+}
+
+.dark {
+  --bg: #0f1312;
+  --surface: #171c1a;
+  --surface-sunken: #1d2321;
+  --line: #262e2b;
+  --line-strong: #34403b;
+  --gridline: #20272a;
+
+  --text: #eef2f0;
+  --text-muted: #a0aca6;
+  --text-faint: #75817c;
+
+  --accent: #6fbf98;
+  --accent-hover: #86cfab;
+  --accent-soft: #1d2a24;
+  --on-accent: #0f1312;
+  --forest: #1d5541;
+  --series-1: #4fc195;
+  --series-2: #a6dcc4;
+  --bar-muted: #2a3330;
+
+  --positive: #4fc195;
+  --negative: #e58a7d;
+  --warning: #d6b471;
+  --warning-soft: #2a2416;
+  --danger-soft: #2c1a17;
+  --mint: #18241f;
+  --mint-2: #1d2419;
+  --lime: #e4e87a;
+
+  --sheet-grid: #2c3532;
+  --sheet-head: #1b211f;
+  --sheet-header: #1e6b4f;
+  --sheet-band: #1a201e;
+  --sheet-select: #8ab4f8;
+  --sheet-select-soft: #1f2a3a;
+
+  --shadow-card: none;
+  --shadow-pop: 0 20px 48px -16px rgb(0 0 0 / 0.6), 0 0 0 1px var(--line);
+}
+
+html {
+  color-scheme: light dark;
+  -webkit-text-size-adjust: 100%;
+  /* App-like: pan only, no pinch or double-tap zoom. */
+  touch-action: pan-x pan-y;
+}
+
+/* Phones: no rubber-band bounce, and form fields at 16px so iOS never
+   auto-zooms when one is tapped. */
+@media (max-width: 767px) {
+  html,
+  body {
+    overscroll-behavior: none;
+  }
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  /* Inter is self-hosted by next/font at build time (app/layout.tsx). */
+  font-family: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/*
+ * Laptop and desktop: sharp, rectangular surfaces in the bill.com manner.
+ * Every arbitrary radius (cards, inputs, buttons, sheets) drops to 4px, and
+ * text buttons lose their pill shape. Round icon buttons and avatars (sized
+ * with size-*) stay round. Phones keep the soft Nixtio corners.
+ */
+@media (min-width: 768px) {
+  [class*="rounded-["] {
+    border-radius: 4px !important;
+  }
+  :is(button, a, select).rounded-full:not([class*="size-"]) {
+    border-radius: 4px !important;
+  }
+}
+
+/* Horizontal chip rows scroll by touch without a visible bar. */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* Small, muted section label. */
+/* Section label: sentence case, quiet, never shouting. */
+.label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+/* Browser surfaces carry the palette too. */
+::selection {
+  background: color-mix(in srgb, var(--series-1) 22%, transparent);
+  color: var(--text);
+}
+:root {
+  caret-color: var(--accent);
+  accent-color: var(--accent);
+  scrollbar-color: var(--line-strong) transparent;
+}
+
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--series-1);
+  outline-offset: 1px;
+  border-radius: 6px;
+}
+
+/*
+ * This rule is deliberately unlayered. Tailwind v4 emits utilities inside
+ * `@layer utilities`, and unlayered declarations outrank layered ones, so the
+ * grid's `outline-none` cells still receive the ring above. Verified with a
+ * real Tab keypress: a focused cell carrying `outline-none` resolves to a solid
+ * 2px outline in the accent colour.
+ */
+
+/* Keyboard users can jump past the navigation rail straight to the content. */
+.skip-link {
+  position: absolute;
+  left: 0.5rem;
+  top: 0.5rem;
+  z-index: 100;
+  transform: translateY(-200%);
+  border-radius: 6px;
+  background: var(--accent);
+  color: var(--on-accent);
+  padding: 0.5rem 0.75rem;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+/*
+ * Motion is decorative throughout (colour and opacity fades only), but a
+ * reader who asks for reduced motion should get none of it.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (max-width: 767px) {
+  html,
+  body {
+    overflow-x: clip;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}

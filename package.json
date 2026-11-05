@@ -1,0 +1,39 @@
+{
+  "name": "finance-tracker-template",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "next typegen && tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check:sidebar": "node scripts/check-sidebar.mjs",
+    "verify": "npm run lint && npm run typecheck && npm test && npm run build",
+    "ship": "node scripts/ship.mjs",
+    "icons": "node scripts/generate-icons.mjs",
+    "dev:demo": "node scripts/dev-demo.mjs"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.117.3",
+    "lucide-react": "^1.55.0",
+    "next": "16.4.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "recharts": "^3.10.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/turbopack": "^4",
+    "@types/node": "^24.19.2",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.0",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vitest": "^5.0.3"
+  }
+}
